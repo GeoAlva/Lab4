@@ -1,12 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.net.Socket;
 
 public class GUI extends JFrame {
 
     protected JTextArea textArea;
     protected JPanel radioPanel;
 
-    public GUI() {
+    public GUI(Socket socket) {
         setTitle("Gestore Prenotazioni");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 400);
@@ -19,6 +20,9 @@ public class GUI extends JFrame {
         radioPanel = new JPanel();
         radioPanel.setLayout(new BoxLayout(radioPanel, BoxLayout.Y_AXIS));
         ButtonGroup bg = new ButtonGroup();
+        JRadioButton radioButton0 = new JRadioButton("Metal");
+        radioPanel.add(radioButton0);
+        bg.add(radioButton0);
         // Create radio buttons and add them to the panel
         for (int i = 1; i <= 20; i++) {
             JRadioButton radioButton = new JRadioButton("Radio Button " + i);
@@ -36,7 +40,7 @@ public class GUI extends JFrame {
 
         // Create a submit button
         JButton submitButton = new JButton("Prenota");
-        MyListener buttonListener = new MyListener(this);
+        MyListener buttonListener = new MyListener(this, socket);
         submitButton.addActionListener(buttonListener);
 
         // Create a panel to hold the text area and submit button

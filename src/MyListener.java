@@ -1,22 +1,25 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.net.Socket;
 
 public class MyListener implements ActionListener {
 
     private GUI gui;
     private MyWorker worker;
+    private Socket socket;
 
-    public MyListener(GUI gui) {
+    public MyListener(GUI gui, Socket socket) {
         this.gui = gui;
+        this.socket = socket;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        worker = new MyWorker();
-        worker.execute();
         String selectedRadioButton = getSelectedRadioButton(gui.radioPanel);
         String text = gui.textArea.getText();
+        worker = new MyWorker(socket, selectedRadioButton, text);
+        worker.execute();
         JOptionPane.showMessageDialog(gui,
                 "Selected Radio Button: " + selectedRadioButton + "\nText: " + text);
     }
