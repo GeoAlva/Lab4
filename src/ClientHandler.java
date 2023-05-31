@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import com.google.gson.Gson;
 
 public class ClientHandler implements Runnable {
     private Socket clientSocket;
@@ -35,6 +36,8 @@ public class ClientHandler implements Runnable {
     }
 
     private String processRequest(String request) {
+        Gson gson = new Gson();
+        String jsonString;
 
         // Evento Prenota
         if (request.startsWith("Prenota")) {
@@ -50,7 +53,9 @@ public class ClientHandler implements Runnable {
         }
         // Evento Lista
         if (request.equals("Lista")) {
-            return eventi.ListaEventi().toString();
+            jsonString = gson.toJson(eventi);
+            System.out.println("Stringa: "+jsonString);
+           return jsonString;
         }
 
         return "Comando non riconosciuto";
