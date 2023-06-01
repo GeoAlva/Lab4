@@ -105,7 +105,10 @@ public class GUI extends JFrame {
             JRadioButton radioButton = new JRadioButton(key + ", Posti disponibili: " + value);
             radioPanel.add(radioButton);
             bg.add(radioButton);
+
         }
+        radioPanel.revalidate();
+        radioPanel.repaint();
 
     }
 

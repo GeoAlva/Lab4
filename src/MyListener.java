@@ -25,6 +25,9 @@ public class MyListener implements ActionListener {
         System.out.println(radioButtonLabel[0]);
         worker = new MyWorker(reader, writer, radioButtonLabel[0], text);
         worker.execute();
+
+        while (!worker.isDone()) {
+        }
         gui.InitRadButtons(reader, writer, gui.bg);
         JOptionPane.showMessageDialog(gui,
                 "Prenotazione completata: " + radioButtonLabel[0] + " Posti: " + text);
