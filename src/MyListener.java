@@ -21,7 +21,7 @@ public class MyListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         String selectedRadioButton = getSelectedRadioButton(gui.radioPanel);
-        String text = gui.textArea.getText();
+        String text = gui.textField.getText();
         if (selectedRadioButton == null || text == null) {
             JOptionPane.showMessageDialog(gui,
                     "Nessuna opzione o numero di posti selezionati");
