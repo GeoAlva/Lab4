@@ -1,17 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
 import java.net.Socket;
-/* 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-
 import java.util.concurrent.ConcurrentHashMap;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-*/
+
 public class GUI extends JFrame {
 
     protected JTextArea textArea;
@@ -31,47 +29,8 @@ public class GUI extends JFrame {
         radioPanel.setLayout(new BoxLayout(radioPanel, BoxLayout.Y_AXIS));
         ButtonGroup bg = new ButtonGroup();
 
-    /* ROBA DA RIVEDERE PER GENERARE I RADIO BUTTON, ERRORI CON SOCKET
-        try (
-            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
-        ){
-            writer.println("Lista");
-            String serverResponse="";
-            try {
-                serverResponse = reader.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Risposta del server: " + serverResponse);
-            //per convertire la hasmap stringa in un oggetto
-            Gson gson = new Gson();
-            TypeToken<ConcurrentHashMap<String, Integer>> typeToken = new TypeToken<ConcurrentHashMap<String, Integer>>() {};
-            ConcurrentHashMap<String, Integer> objectResponse = gson.fromJson(serverResponse, typeToken.getType());
-            // Create radio buttons and add them to the panel
-            System.out.println("RISPOSTA SERVER"+serverResponse.toString());
-            for (ConcurrentHashMap.Entry<String, Integer> entry : objectResponse.entrySet()) {
-                String key = entry.getKey();
-                Integer value = entry.getValue();
-                JRadioButton radioButton = new JRadioButton(key + "" + value);
-                radioPanel.add(radioButton);
-                bg.add(radioButton);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
-       
-        JRadioButton radioButton0 = new JRadioButton("Metal");
-        radioPanel.add(radioButton0);
-        bg.add(radioButton0);
-        // Create radio buttons and add them to the panel
-         for (int i = 1; i <= 20; i++) {
-            JRadioButton radioButton = new JRadioButton("Radio Button " + i);
-            radioPanel.add(radioButton);
-            bg.add(radioButton);
-        }
-
+        InitRadButtons(socket, bg);
+        
         // Add the radio panel to the scroll pane
         scrollPane.setViewportView(radioPanel);
         // Create a label for the text area
@@ -101,6 +60,36 @@ public class GUI extends JFrame {
         getContentPane().add(containerPanel);
 
         setVisible(true);
+    }
+
+    private void InitRadButtons(Socket socket, ButtonGroup bg) {
+        try (
+            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+        ){
+            writer.println("Lista");
+            String serverResponse="";
+            try {
+                serverResponse = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Risposta del server: " + serverResponse);
+            //per convertire la hasmap stringa in un oggetto
+            Gson gson = new Gson();
+            TypeToken<ConcurrentHashMap<String, Integer>> typeToken = new TypeToken<ConcurrentHashMap<String, Integer>>() {};
+            ConcurrentHashMap<String, Integer> objectResponse = gson.fromJson(serverResponse, typeToken.getType());
+            // Create radio buttons and add them to the panel
+            for (ConcurrentHashMap.Entry<String, Integer> entry : objectResponse.entrySet()) {
+                String key = entry.getKey();
+                Integer value = entry.getValue();
+                JRadioButton radioButton = new JRadioButton(key + "" + value);
+                radioPanel.add(radioButton);
+                bg.add(radioButton);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
