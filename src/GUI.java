@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,17 +41,23 @@ public class GUI extends JFrame {
         MyListener buttonListener = new MyListener(this, reader, writer);
         submitButton.addActionListener(buttonListener);
 
+        // Create refresh button
+        JButton refreshButton = new JButton("Refresh");
+
         // Create a panel to hold the text area and submit button
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(label, BorderLayout.WEST);
         panel.add(new JScrollPane(textArea), BorderLayout.CENTER);
-        panel.add(submitButton, BorderLayout.SOUTH);
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.add(submitButton);
+        buttonPanel.add(refreshButton);
 
         // Create a container panel to hold the scroll pane and the panel with the text
         // area and submit button
         JPanel containerPanel = new JPanel(new BorderLayout());
         containerPanel.add(scrollPane, BorderLayout.CENTER);
         containerPanel.add(panel, BorderLayout.SOUTH);
+        panel.add(buttonPanel, BorderLayout.SOUTH);
 
         // Add the container panel to the frame
         getContentPane().add(containerPanel);
