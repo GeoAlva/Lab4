@@ -16,15 +16,14 @@ public class Client {
                 Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
                 BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
-                BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))
-            ) {
+                BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
             System.out.println("Connessione al server riuscita. Puoi inviare comandi al server.");
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
-                    new GUI(socket);
+                    new GUI(reader, writer);
                 }
             });
-            //Per inserimento manuale delle richieste:
+            // Per inserimento manuale delle richieste:
             String userInput;
             while ((userInput = consoleReader.readLine()) != null) {
                 writer.println(userInput);

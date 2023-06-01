@@ -1,23 +1,21 @@
 import javax.swing.*;
 import java.awt.*;
-import java.net.Socket;
-/* 
+
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-*/
+
 public class GUI extends JFrame {
 
     protected JTextArea textArea;
     protected JPanel radioPanel;
 
-    public GUI(Socket socket) {
+    public GUI(BufferedReader reader, PrintWriter writer) {
         setTitle("Gestore Prenotazioni");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 400);
@@ -31,43 +29,25 @@ public class GUI extends JFrame {
         radioPanel.setLayout(new BoxLayout(radioPanel, BoxLayout.Y_AXIS));
         ButtonGroup bg = new ButtonGroup();
 
-    /* ROBA DA RIVEDERE PER GENERARE I RADIO BUTTON, ERRORI CON SOCKET
-        try (
-            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
-        ){
-            writer.println("Lista");
-            String serverResponse="";
-            try {
-                serverResponse = reader.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Risposta del server: " + serverResponse);
-            //per convertire la hasmap stringa in un oggetto
-            Gson gson = new Gson();
-            TypeToken<ConcurrentHashMap<String, Integer>> typeToken = new TypeToken<ConcurrentHashMap<String, Integer>>() {};
-            ConcurrentHashMap<String, Integer> objectResponse = gson.fromJson(serverResponse, typeToken.getType());
-            // Create radio buttons and add them to the panel
-            System.out.println("RISPOSTA SERVER"+serverResponse.toString());
-            for (ConcurrentHashMap.Entry<String, Integer> entry : objectResponse.entrySet()) {
-                String key = entry.getKey();
-                Integer value = entry.getValue();
-                JRadioButton radioButton = new JRadioButton(key + "" + value);
-                radioPanel.add(radioButton);
-                bg.add(radioButton);
-            }
+        writer.println("Lista");
+        String serverResponse = "";
+        try {
+            serverResponse = reader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        */
-       
-        JRadioButton radioButton0 = new JRadioButton("Metal");
-        radioPanel.add(radioButton0);
-        bg.add(radioButton0);
+        System.out.println("Risposta del server: " + serverResponse);
+        // per convertire la hasmap stringa in un oggetto
+        Gson gson = new Gson();
+        TypeToken<ConcurrentHashMap<String, Integer>> typeToken = new TypeToken<ConcurrentHashMap<String, Integer>>() {
+        };
+        ConcurrentHashMap<String, Integer> objectResponse = gson.fromJson(serverResponse, typeToken.getType());
         // Create radio buttons and add them to the panel
-         for (int i = 1; i <= 20; i++) {
-            JRadioButton radioButton = new JRadioButton("Radio Button " + i);
+        System.out.println("RISPOSTA SERVER" + serverResponse.toString());
+        for (ConcurrentHashMap.Entry<String, Integer> entry : objectResponse.entrySet()) {
+            String key = entry.getKey();
+            Integer value = entry.getValue();
+            JRadioButton radioButton = new JRadioButton(key + " " + value);
             radioPanel.add(radioButton);
             bg.add(radioButton);
         }
@@ -82,7 +62,7 @@ public class GUI extends JFrame {
 
         // Create a submit button
         JButton submitButton = new JButton("Prenota");
-        MyListener buttonListener = new MyListener(this, socket);
+        MyListener buttonListener = new MyListener(this, reader, writer);
         submitButton.addActionListener(buttonListener);
 
         // Create a panel to hold the text area and submit button

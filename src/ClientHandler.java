@@ -53,9 +53,9 @@ public class ClientHandler implements Runnable {
         }
         // Evento Lista
         if (request.equals("Lista")) {
-            jsonString = gson.toJson(eventi);
-            System.out.println("Stringa: "+jsonString);
-           return jsonString;
+            jsonString = gson.toJson(eventi.ListaEventi());
+            System.out.println("Stringa: " + jsonString);
+            return jsonString;
         }
 
         return "Comando non riconosciuto";

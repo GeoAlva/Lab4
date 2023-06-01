@@ -1,27 +1,32 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.net.Socket;
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 
 public class MyListener implements ActionListener {
 
     private GUI gui;
     private MyWorker worker;
-    private Socket socket;
+    private BufferedReader reader;
+    private PrintWriter writer;
 
-    public MyListener(GUI gui, Socket socket) {
+    public MyListener(GUI gui, BufferedReader reader, PrintWriter writer) {
         this.gui = gui;
-        this.socket = socket;
+        this.reader = reader;
+        this.writer = writer;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         String selectedRadioButton = getSelectedRadioButton(gui.radioPanel);
         String text = gui.textArea.getText();
-        worker = new MyWorker(socket, selectedRadioButton, text);
+        String[] radioButtonLabel = selectedRadioButton.split("\\s+");
+        System.out.println(radioButtonLabel[0]);
+        worker = new MyWorker(reader, writer, radioButtonLabel[0], text);
         worker.execute();
         JOptionPane.showMessageDialog(gui,
-                "Selected Radio Button: " + selectedRadioButton + "\nText: " + text);
+                "Prenotazione completata: " + radioButtonLabel[0] + " Posti: " + text);
     }
 
     private String getSelectedRadioButton(JPanel radioJPanel) {
