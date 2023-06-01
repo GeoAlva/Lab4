@@ -21,7 +21,7 @@ public class MyListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String selectedRadioButton = getSelectedRadioButton(gui.radioPanel);
         String text = gui.textArea.getText();
-        String[] radioButtonLabel = selectedRadioButton.split("\\s+");
+        String[] radioButtonLabel = selectedRadioButton.split(",");
         System.out.println(radioButtonLabel[0]);
         worker = new MyWorker(reader, writer, radioButtonLabel[0], text);
         worker.execute();

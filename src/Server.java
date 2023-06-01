@@ -10,6 +10,14 @@ public class Server {
         eventi.Crea("Metal", 200);
         eventi.Crea("Classico", 80);
         eventi.Crea("Rap", 30);
+        eventi.Crea("Pop", 27);
+        eventi.Crea("Jazz", 75);
+        eventi.Crea("Country", 308);
+        eventi.Crea("Rock", 53);
+        eventi.Crea("Disco", 42);
+        eventi.Crea("Techno", 912);
+        eventi.Crea("Funk", 473);
+        eventi.Crea("Hip_hop", 297);
 
         try {
             try (ServerSocket serverSocket = new ServerSocket(PORT)) {

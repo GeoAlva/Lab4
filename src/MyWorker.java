@@ -20,7 +20,6 @@ public class MyWorker extends SwingWorker<String, Integer> {
 
     @Override
     protected String doInBackground() throws Exception {
-
         writer.println("Prenota|" + selectedRadioButton + "|" + text);
         String serverResponse = reader.readLine();
         System.out.println(selectedRadioButton + text);

@@ -4,9 +4,7 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import java.util.concurrent.ConcurrentHashMap;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -29,28 +27,7 @@ public class GUI extends JFrame {
         radioPanel.setLayout(new BoxLayout(radioPanel, BoxLayout.Y_AXIS));
         ButtonGroup bg = new ButtonGroup();
 
-        writer.println("Lista");
-        String serverResponse = "";
-        try {
-            serverResponse = reader.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Risposta del server: " + serverResponse);
-        // per convertire la hasmap stringa in un oggetto
-        Gson gson = new Gson();
-        TypeToken<ConcurrentHashMap<String, Integer>> typeToken = new TypeToken<ConcurrentHashMap<String, Integer>>() {
-        };
-        ConcurrentHashMap<String, Integer> objectResponse = gson.fromJson(serverResponse, typeToken.getType());
-        // Create radio buttons and add them to the panel
-        System.out.println("RISPOSTA SERVER" + serverResponse.toString());
-        for (ConcurrentHashMap.Entry<String, Integer> entry : objectResponse.entrySet()) {
-            String key = entry.getKey();
-            Integer value = entry.getValue();
-            JRadioButton radioButton = new JRadioButton(key + " " + value);
-            radioPanel.add(radioButton);
-            bg.add(radioButton);
-        }
+        InitRadButtons(reader, writer, bg);
 
         // Add the radio panel to the scroll pane
         scrollPane.setViewportView(radioPanel);
@@ -81,6 +58,30 @@ public class GUI extends JFrame {
         getContentPane().add(containerPanel);
 
         setVisible(true);
+    }
+
+    private void InitRadButtons(BufferedReader reader, PrintWriter writer, ButtonGroup bg) {
+        writer.println("Lista");
+        String serverResponse = "";
+        try {
+            serverResponse = reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Risposta del server: " + serverResponse);
+        // per convertire la hasmap stringa in un oggetto
+        Gson gson = new Gson();
+        TypeToken<ConcurrentHashMap<String, Integer>> typeToken = new TypeToken<ConcurrentHashMap<String, Integer>>() {
+        };
+        ConcurrentHashMap<String, Integer> objectResponse = gson.fromJson(serverResponse, typeToken.getType());
+        // Create radio buttons and add them to the panel
+        for (ConcurrentHashMap.Entry<String, Integer> entry : objectResponse.entrySet()) {
+            String key = entry.getKey();
+            Integer value = entry.getValue();
+            JRadioButton radioButton = new JRadioButton(key + ", Posti disponibili: " + value);
+            radioPanel.add(radioButton);
+            bg.add(radioButton);
+        }
     }
 
 }
