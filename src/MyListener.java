@@ -19,8 +19,14 @@ public class MyListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         String selectedRadioButton = getSelectedRadioButton(gui.radioPanel);
         String text = gui.textArea.getText();
+        if (selectedRadioButton == null || text == null) {
+            JOptionPane.showMessageDialog(gui,
+                    "Nessuna opzione o numero di posti selezionati");
+            return;
+        }
         String[] radioButtonLabel = selectedRadioButton.split(",");
         System.out.println(radioButtonLabel[0]);
         worker = new MyWorker(reader, writer, radioButtonLabel[0], text, gui);

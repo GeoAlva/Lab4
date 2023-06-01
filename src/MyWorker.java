@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.PrintWriter;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
@@ -23,17 +24,40 @@ public class MyWorker extends SwingWorker<String, Integer> {
 
     @Override
     protected String doInBackground() throws Exception {
+        if (selectedRadioButton.isEmpty() || text.isEmpty())
+            return "null";
         writer.println("Prenota|" + selectedRadioButton + "|" + text);
         String serverResponse = reader.readLine();
         System.out.println(selectedRadioButton + text);
         System.out.println("Risposta del server: " + serverResponse);
-        return "Done!";
+        if (serverResponse.startsWith("Impossibile")) {
+            return "error";
+        }
+        return "done";
     }
 
     @Override
     protected void done() {
-        gui.InitRadButtons(reader, writer, gui.bg);
-        JOptionPane.showMessageDialog(gui,
-                "Prenotazione completata: " + selectedRadioButton + " Posti: " + text);
+        String returnValue;
+        try {
+            returnValue = get();
+        } catch (InterruptedException | ExecutionException e) {
+            System.err.println("Errore MyWorker get() " + e.getMessage());
+            return;
+        }
+
+        switch (returnValue) {
+            case "error":
+                JOptionPane.showMessageDialog(gui, "Non è possibile prenotare piu posti di quelli disponibili");
+                break;
+
+            default:
+                gui.InitRadButtons(reader, writer, gui.bg);
+                JOptionPane.showMessageDialog(gui,
+                        "Prenotazione completata: " + selectedRadioButton + " Posti: " + text);
+                break;
+        }
+
     }
+
 }
