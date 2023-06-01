@@ -45,14 +45,13 @@ public class MyWorker extends SwingWorker<String, Integer> {
             System.err.println("Errore MyWorker get() " + e.getMessage());
             return;
         }
-
+        gui.InitRadButtons(reader, writer, gui.bg);
         switch (returnValue) {
             case "error":
                 JOptionPane.showMessageDialog(gui, "Non è possibile prenotare piu posti di quelli disponibili");
                 break;
 
             default:
-                gui.InitRadButtons(reader, writer, gui.bg);
                 JOptionPane.showMessageDialog(gui,
                         "Prenotazione completata: " + selectedRadioButton + " Posti: " + text);
                 break;
