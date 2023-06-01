@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 public class MyWorker extends SwingWorker<String, Integer> {
@@ -10,12 +11,14 @@ public class MyWorker extends SwingWorker<String, Integer> {
     private String text;
     private BufferedReader reader;
     private PrintWriter writer;
+    private GUI gui;
 
-    public MyWorker(BufferedReader reader, PrintWriter writer, String selectedRadioButton, String text) {
+    public MyWorker(BufferedReader reader, PrintWriter writer, String selectedRadioButton, String text, GUI gui) {
         this.selectedRadioButton = selectedRadioButton;
         this.text = text;
         this.reader = reader;
         this.writer = writer;
+        this.gui = gui;
     }
 
     @Override
@@ -29,6 +32,8 @@ public class MyWorker extends SwingWorker<String, Integer> {
 
     @Override
     protected void done() {
-
+        gui.InitRadButtons(reader, writer, gui.bg);
+        JOptionPane.showMessageDialog(gui,
+                "Prenotazione completata: " + selectedRadioButton + " Posti: " + text);
     }
 }

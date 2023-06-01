@@ -23,14 +23,8 @@ public class MyListener implements ActionListener {
         String text = gui.textArea.getText();
         String[] radioButtonLabel = selectedRadioButton.split(",");
         System.out.println(radioButtonLabel[0]);
-        worker = new MyWorker(reader, writer, radioButtonLabel[0], text);
+        worker = new MyWorker(reader, writer, radioButtonLabel[0], text, gui);
         worker.execute();
-
-        while (!worker.isDone()) {
-        }
-        gui.InitRadButtons(reader, writer, gui.bg);
-        JOptionPane.showMessageDialog(gui,
-                "Prenotazione completata: " + radioButtonLabel[0] + " Posti: " + text);
 
     }
 
