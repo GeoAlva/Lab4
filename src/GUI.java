@@ -3,6 +3,7 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -66,6 +67,16 @@ public class GUI extends JFrame {
     }
 
     private void InitRadButtons(BufferedReader reader, PrintWriter writer, ButtonGroup bg) {
+                 
+        radioPanel.removeAll();
+        bg.clearSelection();
+        // rimuovi tutti i bottoni
+        Enumeration<AbstractButton> buttons = bg.getElements();
+        while (buttons.hasMoreElements()) {
+        AbstractButton button = buttons.nextElement();
+        bg.remove(button);
+        }
+        
         writer.println("Lista");
         String serverResponse = "";
         try {
@@ -87,6 +98,7 @@ public class GUI extends JFrame {
             radioPanel.add(radioButton);
             bg.add(radioButton);
         }
+
     }
 
 }
