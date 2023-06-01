@@ -7,7 +7,7 @@ import java.net.Socket;
 import javax.swing.SwingUtilities;
 
 public class Client {
-    private static final String SERVER_ADDRESS = "localhost";
+    private static final String SERVER_ADDRESS = "192.168.1.101";
     private static final int SERVER_PORT = 8888;
 
     public static void main(String[] args) {

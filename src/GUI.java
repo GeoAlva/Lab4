@@ -1,4 +1,8 @@
 import javax.swing.*;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +16,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class GUI extends JFrame {
 
-    protected JTextArea textArea;
+    protected JTextField textField;
     protected JPanel radioPanel;
     protected ButtonGroup bg;
 
@@ -36,9 +40,10 @@ public class GUI extends JFrame {
         scrollPane.setViewportView(radioPanel);
         // Create a label for the text area
         JLabel label = new JLabel("Posti da Prentare:     ");
-        // Create a text area
-        textArea = new JTextArea(1, 20);
-        textArea.setLineWrap(true);
+        // Create a text field
+        textField = new JTextField();
+        textField.setDocument(new NumericDocumentFilter());
+        textField.setColumns(20);
 
         // Create a submit button
         JButton submitButton = new JButton("Prenota");
@@ -56,7 +61,7 @@ public class GUI extends JFrame {
         // Create a panel to hold the text area and submit button
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(label, BorderLayout.WEST);
-        panel.add(new JScrollPane(textArea), BorderLayout.CENTER);
+        panel.add(new JScrollPane(textField), BorderLayout.CENTER);
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(submitButton);
         buttonPanel.add(refreshButton);
@@ -112,4 +117,21 @@ public class GUI extends JFrame {
 
     }
 
+    private class NumericDocumentFilter extends PlainDocument {
+
+        @Override
+        public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
+            if (str == null) {
+                return;
+            }
+
+            try {
+                Integer.parseInt(str);
+                super.insertString(offset, str, attr);
+            } catch (NumberFormatException e) {
+                // Ignore non-numeric input
+            }
+        }
+
+    }
 }
