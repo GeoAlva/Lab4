@@ -1,18 +1,6 @@
-## Getting Started
+Eseguire prima main del server e successivamente quello del client.
+leggere i messaggi dalla console di client e server per vedere se connessione avvenuta con successo, in caso di problemi modificare porta.
+Il client ha a disposizione i comandi:
+-Lista, utilizzabile da console scrivendo Lista, ottiene la lista dal server stampa tutti gli eventi disponibili sia su console che sulla gui tramite il tasto refresh.
+-Prenota, utilizzabile da console tramite la sintassi Prenota|<nome evento>|<numero posti> e da GUI tramite il tasto prenota.
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
-
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
