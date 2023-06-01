@@ -21,7 +21,7 @@ public class MyWorker extends SwingWorker<String, Integer> {
     protected String doInBackground() throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
-        System.out.println(selectedRadioButton + text);
+        System.out.println(selectedRadioButton + ", Posti disponibili: " + text);
         writer.println("Prenota|" + selectedRadioButton + "|" + text);
         String serverResponse = reader.readLine();
         System.out.println("Risposta del server: " + serverResponse);

@@ -83,7 +83,7 @@ public class GUI extends JFrame {
             for (ConcurrentHashMap.Entry<String, Integer> entry : objectResponse.entrySet()) {
                 String key = entry.getKey();
                 Integer value = entry.getValue();
-                JRadioButton radioButton = new JRadioButton(key + "" + value);
+                JRadioButton radioButton = new JRadioButton(key + ", Posti disponibili: " + value);
                 radioPanel.add(radioButton);
                 bg.add(radioButton);
             }
