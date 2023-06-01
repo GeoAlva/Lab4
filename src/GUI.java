@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,6 +14,7 @@ public class GUI extends JFrame {
 
     protected JTextArea textArea;
     protected JPanel radioPanel;
+    protected ButtonGroup bg;
 
     public GUI(BufferedReader reader, PrintWriter writer) {
         setTitle("Gestore Prenotazioni");
@@ -25,7 +28,7 @@ public class GUI extends JFrame {
         // Create a panel to hold the radio buttons
         radioPanel = new JPanel();
         radioPanel.setLayout(new BoxLayout(radioPanel, BoxLayout.Y_AXIS));
-        ButtonGroup bg = new ButtonGroup();
+        bg = new ButtonGroup();
 
         InitRadButtons(reader, writer, bg);
 
@@ -44,6 +47,11 @@ public class GUI extends JFrame {
 
         // Create refresh button
         JButton refreshButton = new JButton("Refresh");
+        refreshButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                InitRadButtons(reader, writer, bg);
+            }
+        });
 
         // Create a panel to hold the text area and submit button
         JPanel panel = new JPanel(new BorderLayout());
@@ -66,17 +74,17 @@ public class GUI extends JFrame {
         setVisible(true);
     }
 
-    private void InitRadButtons(BufferedReader reader, PrintWriter writer, ButtonGroup bg) {
-                 
+    protected void InitRadButtons(BufferedReader reader, PrintWriter writer, ButtonGroup bg) {
+
         radioPanel.removeAll();
         bg.clearSelection();
         // rimuovi tutti i bottoni
         Enumeration<AbstractButton> buttons = bg.getElements();
         while (buttons.hasMoreElements()) {
-        AbstractButton button = buttons.nextElement();
-        bg.remove(button);
+            AbstractButton button = buttons.nextElement();
+            bg.remove(button);
         }
-        
+
         writer.println("Lista");
         String serverResponse = "";
         try {
